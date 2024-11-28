@@ -8,23 +8,27 @@
             <div class="flex flex-1 flex-col">
                 <ul class="p-4 flex-1">
                     <li class="my-2">
-                        <router-link class='block py-2 px-4 rounded hover:bg-gray-700 cursor-pointer text-gray-300'>
+                        <Link
+                            href="/schedule"
+                            :class="getMenuClass('schedule')">
                             Jadwal Rapat
-                        </router-link>
+                        </Link>
                     </li>
                     <li class="my-2">
-                        <router-link class='block py-2 px-4 rounded hover:bg-gray-700 cursor-pointer text-gray-300'>
+                        <Link
+                            href="/booking"
+                            :class="getMenuClass('booking')">
                             Booking
-                        </router-link>
+                        </Link>
                     </li>
                     <li class="my-2">
                         <button
-                            @click="toggleDropdown"
+                            @click="dataStore.toggleSidebarDropdown"
                             class="block w-full text-left py-2 px-4 rounded hover:bg-gray-700 cursor-pointer text-gray-300"
                         >
                             Master Data
                             <svg
-                                :class="{'rotate-180': isDropdownOpen, 'rotate-0': !isDropdownOpen}"
+                                :class="{'rotate-180': isSidebarDropdownOpen, 'rotate-0': !isSidebarDropdownOpen}"
                                 class="inline-block w-4 h-4 transition-transform transform ml-2"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -34,33 +38,43 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        <ul v-if="isDropdownOpen" class="pl-4 mt-2 space-y-2">
+                        <ul v-if="isSidebarDropdownOpen" class="pl-4 mt-2 space-y-2">
                             <li>
-                                <router-link to="/master-data/resources" class="block py-2 px-4 rounded hover:bg-gray-700 cursor-pointer text-gray-300">
+                                <Link
+                                    href="/master-data/organization"
+                                    :class="getMenuClass('master-data.organization')">
                                     Organization
-                                </router-link>
+                                </Link>
                             </li>
                             <li>
-                                <router-link to="/master-data/resources" class="block py-2 px-4 rounded hover:bg-gray-700 cursor-pointer text-gray-300">
+                                <Link
+                                    href="/master-data/users"
+                                    :class="getMenuClass('master-data.users')">
                                     User
-                                </router-link>
+                                </Link>
                             </li>
                             <li>
-                                <Link href="/rooms" class="block py-2 px-4 rounded hover:bg-gray-700 cursor-pointer text-gray-300">
+                                <Link
+                                    href="/rooms"
+                                    :class="getMenuClass('rooms')">
                                     Rooms
                                 </Link>
                             </li>
                             <li>
-                                <router-link to="/master-data/rooms" class="block py-2 px-4 rounded hover:bg-gray-700 cursor-pointer text-gray-300">
+                                <Link
+                                    href="/master-data/books"
+                                    :class="getMenuClass('master-data.books')">
                                     Books
-                                </router-link>
+                                </Link>
                             </li>
                         </ul>
                     </li>
                     <li class="my-2">
-                        <router-link class='block py-2 px-4 rounded hover:bg-gray-700 cursor-pointer text-gray-300'>
+                        <Link
+                            href="/activity-log"
+                            :class="getMenuClass('activity-log')">
                             Activity Log
-                        </router-link>
+                        </Link>
                     </li>
                 </ul>
                 <div class="h-24 px-4 py-4 w-full">
@@ -90,25 +104,21 @@
     </aside>
 </template>
 
-<script>
+<script setup>
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { useDataStore } from '@/stores/dataStore';
 import { Link } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 
-export default {
-    data() {
-        return {
-            isDropdownOpen: false,
-            isHovered: false,
-        };
-    },
-    methods: {
-        toggleDropdown() {
-            this.isDropdownOpen = !this.isDropdownOpen;
-        },
-    },
-    components: {
-        ResponsiveNavLink,
-        Link
-    }
+// State
+const dataStore = useDataStore();
+const isHovered = ref(false);
+const isSidebarDropdownOpen = computed(() => dataStore.isSidebarDropdownOpen);
+
+// Helper Function for Menu Class
+const getMenuClass = (routeName) => {
+    return route().current().includes(routeName)
+        ? 'block py-2 px-4 rounded bg-gray-700 text-white'
+        : 'block py-2 px-4 rounded hover:bg-gray-700 cursor-pointer text-gray-300';
 };
 </script>

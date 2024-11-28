@@ -3,24 +3,34 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { useDataStore } from '@/stores/dataStore';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
+const props = defineProps({
+    room: {
+        type: Object,
+        default: {
+            name: '',
+            floor: '',
+            capacity: 0,
+        }
+    }
+})
+
 // Define form state using Inertia's useForm
 const form = useForm({
-    name: '',       // Room name
-    floor: '',      // Floor number
-    capacity: ''    // Capacity
+    name: props.room.name,
+    floor: props.room.floor,
+    capacity: props.room.capacity
 });
 
 const dataStore = useDataStore()
 
 // Function to handle form submission
 const submit = () => {
-    form.post(route('rooms.store'), {
+    form.patch(route('rooms.update', props.room.id), {
         onSuccess: () => {
-            dataStore.setAlertSuccess('New room created successfully!')
+            dataStore.setAlertSuccess("The room updated successfully!")
         },
-        onError: (error) => {
-            console.error("Room creation error: ", error)
-            dataStore.setAlertError("Failed to create new room!")
+        onError: (errors) => {
+            dataStore.setAlertError("Failed to update the room!")
         }
     });
 };
@@ -37,9 +47,9 @@ const submit = () => {
                         <div class="mb-8">
                             <p class="mb-2 text-sm">
                                 <Link class="text-blue-500" href="/rooms">Rooms</Link> / 
-                                <span class="text-gray-500">Create</span>
+                                <span class="text-gray-500">Edit</span>
                             </p>
-                            <h1 class="font-semibold text-xl">Add New Room</h1>
+                            <h1 class="font-semibold text-xl">Edit Existing Room</h1>
                         </div>
                         <form @submit.prevent="submit">
                             <div class="mb-4">
@@ -84,7 +94,7 @@ const submit = () => {
                                     class="bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg px-4 py-2"
                                     :disabled="form.processing"
                                 >
-                                    {{ form.processing ? 'Creating...' : 'Create' }}
+                                    {{ form.processing ? 'Updating...' : 'Update' }}
                                 </button>
                             </div>
                         </form>

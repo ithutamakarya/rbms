@@ -5,16 +5,21 @@ export const useDataStore = defineStore('data', {
         alertMessage: "",
         alertVisibility: false,
         alertType: "success",
+        isSidebarDropdownOpen: false,
     }),
     actions: {
-        setAlertMessage(message) {
+        setAlertSuccess(message) {
+            this.alertType = 'success'
+            this.alertVisibility = true
             this.alertMessage = message
         },
-        setAlertVisibility(status) {
-            this.alertVisibility = status
+        setAlertError(message) {
+            this.alertType = 'error'
+            this.alertVisibility = true
+            this.alertMessage = message
         },
-        setAlertType(type) {
-            this.alertType = type
-        }
+        toggleSidebarDropdown() {
+            this.isSidebarDropdownOpen = !this.isSidebarDropdownOpen
+        },
     }
 })

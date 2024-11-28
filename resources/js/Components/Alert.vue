@@ -28,14 +28,14 @@ const visible = computed(() => dataStore.alertVisibility)
 
 const alertClass = computed(() => {
     return props.type === 'success' ?
-    'fixed top-8 right-8 w-64 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4' :
-    'fixed top-8 right-8 w-64 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4'
+    'fixed top-8 right-8 max-w-96 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4' :
+    'fixed top-8 right-8 max-w-96 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4'
 })
 
 watch(visible, (newVal) => {
     if (newVal) {
         setTimeout(() => {
-            dataStore.setAlertVisibility(false);
+            dataStore.alertVisibility = false;
         }, props.duration);
     }
 });
