@@ -47,7 +47,7 @@ class RoomController extends Controller
      */
     public function edit(Room $room)
     {
-        //
+        return Inertia::render('Room/Edit', compact('room'));
     }
 
     /**
@@ -55,7 +55,8 @@ class RoomController extends Controller
      */
     public function update(Request $request, Room $room)
     {
-        //
+        $room->update($request->all());
+        return redirect(route('rooms.index'))->with('success', 'The room updated successfully');
     }
 
     /**
