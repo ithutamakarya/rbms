@@ -108,16 +108,12 @@
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { useDataStore } from '@/stores/dataStore';
 import { Link } from '@inertiajs/vue3';
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 
 // State
 const dataStore = useDataStore();
 const isHovered = ref(false);
 const isSidebarDropdownOpen = computed(() => dataStore.isSidebarDropdownOpen);
-
-onMounted(() => {
-    console.log(route().current().includes('rooms'))
-})
 
 // Helper Function for Menu Class
 const getMenuClass = (routeName) => {

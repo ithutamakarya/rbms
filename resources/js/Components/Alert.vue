@@ -35,7 +35,7 @@ const alertClass = computed(() => {
 watch(visible, (newVal) => {
     if (newVal) {
         setTimeout(() => {
-            dataStore.setAlertVisibility(false);
+            dataStore.alertVisibility = false;
         }, props.duration);
     }
 });

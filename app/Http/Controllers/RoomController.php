@@ -64,6 +64,7 @@ class RoomController extends Controller
      */
     public function destroy(Room $room)
     {
-        //
+        $room->delete();
+        return redirect(route('rooms.index'))->with('success', 'The room deleted successfully');
     }
 }

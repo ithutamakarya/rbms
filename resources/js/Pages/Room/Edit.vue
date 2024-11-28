@@ -27,14 +27,10 @@ const dataStore = useDataStore()
 const submit = () => {
     form.patch(route('rooms.update', props.room.id), {
         onSuccess: () => {
-            dataStore.setAlertMessage("The room updated successfully!")
-            dataStore.setAlertType('success')
-            dataStore.setAlertVisibility(true)
+            dataStore.setAlertSuccess("The room updated successfully!")
         },
         onError: (errors) => {
-            dataStore.setAlertMessage("Failed to update the room!")
-            dataStore.setAlertType('error')
-            dataStore.setAlertVisibility(true)
+            dataStore.setAlertError("Failed to update the room!")
         }
     });
 };

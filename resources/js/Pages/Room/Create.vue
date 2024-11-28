@@ -16,14 +16,11 @@ const dataStore = useDataStore()
 const submit = () => {
     form.post(route('rooms.store'), {
         onSuccess: () => {
-            dataStore.setAlertMessage("New room created successfully!")
-            dataStore.setAlertType('success')
-            dataStore.setAlertVisibility(true)
+            dataStore.setAlertSuccess('New room created successfully!')
         },
-        onError: (errors) => {
-            dataStore.setAlertMessage("Failed to create new room!")
-            dataStore.setAlertType('error')
-            dataStore.setAlertVisibility(true)
+        onError: (error) => {
+            console.error("Room creation error: ", error)
+            dataStore.setAlertError("Failed to create new room!")
         }
     });
 };
