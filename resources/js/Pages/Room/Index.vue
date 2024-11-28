@@ -1,5 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { useDataStore } from '@/stores/dataStore';
 import { Head, Link } from '@inertiajs/vue3';
 
 const props = defineProps({

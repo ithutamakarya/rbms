@@ -1,5 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { useDataStore } from '@/stores/dataStore';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 // Define form state using Inertia's useForm
@@ -9,14 +10,20 @@ const form = useForm({
     capacity: ''    // Capacity
 });
 
+const dataStore = useDataStore()
+
 // Function to handle form submission
 const submit = () => {
     form.post(route('rooms.store'), {
         onSuccess: () => {
-            console.log('Room created successfully!');
+            dataStore.setAlertMessage("Product created successfully!")
+            dataStore.setAlertType('success')
+            dataStore.setAlertVisibility(true)
         },
         onError: (errors) => {
-            console.error('Validation errors:', errors);
+            dataStore.setAlertMessage("Failed to create product!")
+            dataStore.setAlertType('error')
+            dataStore.setAlertVisibility(true)
         }
     });
 };

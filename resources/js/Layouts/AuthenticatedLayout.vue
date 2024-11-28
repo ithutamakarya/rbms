@@ -1,14 +1,13 @@
 <script setup>
-import { ref } from 'vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
 import Sidebar from '@/Components/Sidebar.vue';
+import Alert  from '@/Components/Alert.vue';
+import { useDataStore } from '@/stores/dataStore';
+import { computed } from 'vue';
 
-const showingNavigationDropdown = ref(false);
+const dataStore = useDataStore()
+
+const message = computed(() => dataStore.alertMessage)
+const type = computed(() => dataStore.alertType)
 </script>
 
 <template>
@@ -17,6 +16,9 @@ const showingNavigationDropdown = ref(false);
             <Sidebar class="w-64 h-screen fixed bg-gray-800 space-y-4" />
             <main class="ml-64 flex-1 flex-col">
                 <div class="flex-1 h-full p-8 overflow-y-auto bg-gray-100">
+                    <div class="my-4">
+                        <Alert :message="message" :type="type" />
+                    </div>
                     <slot />
                 </div>
             </main>
