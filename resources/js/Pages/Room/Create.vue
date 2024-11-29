@@ -32,8 +32,8 @@ const submit = () => {
     <AuthenticatedLayout>
         <div class="max-w-7xl mx-auto">
             <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <div class="w-1/2 mx-auto">
+                <div class="p-8 text-gray-900">
+                    <div class="w-1/2">
                         <div class="mb-8">
                             <p class="mb-2 text-sm">
                                 <Link class="text-blue-500" href="/rooms">Rooms</Link> / 
@@ -78,10 +78,10 @@ const submit = () => {
                                 />
                                 <span v-if="form.errors.capacity" class="text-red-500 text-sm">{{ form.errors.capacity }}</span>
                             </div>
-                            <div class="mb-4 mt-8 flex justify-end">
+                            <div class="mb-4 mt-8 flex">
                                 <button
                                     type="submit"
-                                    class="bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg px-4 py-2"
+                                    class="bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg px-8 py-2"
                                     :disabled="form.processing"
                                 >
                                     {{ form.processing ? 'Creating...' : 'Create' }}

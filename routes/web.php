@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
 use Illuminate\Foundation\Application;
@@ -24,7 +27,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/users', [RegisteredUserController::class, 'index'])->name('users.index');
+    
     Route::resource('rooms', RoomController::class);
+    Route::resource('books', BookController::class);
+    Route::resource('organizations', OrganizationController::class);
 });
 
 require __DIR__.'/auth.php';
