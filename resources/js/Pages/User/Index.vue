@@ -19,37 +19,37 @@ const dataStore = useDataStore()
 const form = useForm({});
 
 const isModalOpen = ref(false);
-const selectedRoomId = ref(null);
+const selectedUserId = ref(null);
 
 const closeModal = () => {
     isModalOpen.value = false;
-    selectedRoomId.value = null;
+    selectedUserId.value = null;
 };
 
 const openDeleteModal = (id) => {
-    selectedRoomId.value = id;
+    selectedUserId.value = id;
     isModalOpen.value = true;
 };
 
 const handleDelete = () => {
-    if (!selectedRoomId.value) return;
+    if (!selectedUserId.value) return;
 
-    form.delete(route('rooms.destroy', selectedRoomId.value), {
+    form.delete(route('users.destroy', selectedUserId.value), {
         onSuccess: () => {
             isModalOpen.value = false;
-            selectedRoomId.value = null;
-            dataStore.setAlertSuccess('The room deleted successfully')
+            selectedUserId.value = null;
+            dataStore.setAlertSuccess('The user deleted successfully')
         },
         onError: (error) => {
             console.error("Deletion failed:", error);
-            dataStore.setAlertError('The room failed to delete')
+            dataStore.setAlertError('The user failed to delete')
         },
     });
 };
 </script>
 
 <template>
-    <Head title="Room Master Data" />
+    <Head title="Master Data User" />
 
     <AuthenticatedLayout>
         <div>
@@ -58,7 +58,7 @@ const handleDelete = () => {
                     <div class="p-6 text-gray-900">
                         <Modal :show="isModalOpen" @close="closeModal">
                             <div class="p-6">
-                                <h2 class="text-gray-900">Are you sure you want to delete this room?</h2>
+                                <h2 class="text-gray-900">Are you sure you want to delete this user?</h2>
                                 <div class="mt-6 flex justify-end gap-x-4">
                                     <button class="px-4 py-2 hover:bg-gray-100 duration-100 border rounded-lg" @click="closeModal">Cancel</button>
                                     <button
@@ -73,10 +73,7 @@ const handleDelete = () => {
                             </div>
                         </Modal>
                         <div class="flex justify-between items-center mb-8">
-                            <h1 class="font-semibold text-xl">Master Data: Room</h1>
-                            <Link href="/rooms/create">
-                                <button class="px-4 py-2 bg-blue-100 hover:bg-blue-200 duration-300 text-blue-700 rounded-lg">Tambah</button>
-                            </Link>
+                            <h1 class="font-semibold text-xl">Master Data: User</h1>
                         </div>
                         <div class="w-full mb-8">
                             <table class="table-fixed w-full">
@@ -90,22 +87,22 @@ const handleDelete = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-if="props.rooms.data.length == 0">
+                                    <template v-if="props.users.data.length == 0">
                                         <tr>
                                             <td class="text-center py-4 text-gray-500" colspan="5">
-                                                There is no room data yet, add some
+                                                There is no user data yet, add some
                                             </td>
                                         </tr>
                                     </template>
                                     <template v-else>
                                         <tr v-for="(user, index) in props.users.data" :key="index" >
                                             <td class="py-4 border-b-2 text-center">{{ index + 1 }}</td>
-                                            <td class="py-4 border-b-2">{{ room.name }}</td>
-                                            <td class="py-4 border-b-2 text-center">{{ room.capacity }} <span class="text-gray-400">person</span></td>
-                                            <td class="py-4 border-b-2 text-center">{{ room.floor }}</td>
+                                            <td class="py-4 border-b-2">{{ user.name }}</td>
+                                            <td class="py-4 border-b-2 text-center">{{ user.organization ? user.organization : 'not set' }}</td>
+                                            <td class="py-4 border-b-2 text-center">{{ user.role }}</td>
                                             <td class="py-4 border-b-2 text-center flex justify-center gap-x-4">
-                                                <Link :href="`/rooms/${room.id}/edit`" class="text-blue-500 underline">Edit</Link>
-                                                <p @click="openDeleteModal(room.id)" class="cursor-pointer text-blue-500 underline">Delete</p>
+                                                <Link :href="`/users/${user.id}/edit`" class="text-blue-500 underline">Edit</Link>
+                                                <p @click="openDeleteModal(user.id)" class="cursor-pointer text-blue-500 underline">Delete</p>
                                             </td>
                                         </tr>
                                     </template>

@@ -104,7 +104,7 @@ const handleDelete = () => {
                                             <td class="py-4 border-b-2 text-center">{{ room.capacity }} <span class="text-gray-400">person</span></td>
                                             <td class="py-4 border-b-2 text-center">{{ room.floor }}</td>
                                             <td class="py-4 border-b-2 text-center flex justify-center gap-x-4">
-                                                <Link :href="`/rooms/${room.id}/edit`" class="text-blue-500 underline">Edit</Link>
+                                                <Link :href="route('rooms.edit', room.id)" class="text-blue-500 underline">Edit</Link>
                                                 <p @click="openDeleteModal(room.id)" class="cursor-pointer text-blue-500 underline">Delete</p>
                                             </td>
                                         </tr>
