@@ -6,7 +6,7 @@ import { ref } from 'vue';
 import { useDataStore } from '@/stores/dataStore';
 
 const props = defineProps({
-    rooms: {
+    users: {
         type: Object,
         default: {
             data: []
@@ -84,8 +84,8 @@ const handleDelete = () => {
                                     <tr>
                                         <th class="py-4 border-b-2 w-[120px]">#</th>
                                         <th class="py-4 border-b-2 text-left">Name</th>
-                                        <th class="py-4 border-b-2 w-[160px]">Capacity</th>
-                                        <th class="py-4 border-b-2 w-[160px]">Floor</th>
+                                        <th class="py-4 border-b-2 w-[160px]">Divisi</th>
+                                        <th class="py-4 border-b-2 w-[160px]">Role</th>
                                         <th class="py-4 border-b-2 w-[240px]">Action</th>
                                     </tr>
                                 </thead>
@@ -98,7 +98,7 @@ const handleDelete = () => {
                                         </tr>
                                     </template>
                                     <template v-else>
-                                        <tr v-for="(room, index) in props.rooms.data" :key="index" >
+                                        <tr v-for="(user, index) in props.users.data" :key="index" >
                                             <td class="py-4 border-b-2 text-center">{{ index + 1 }}</td>
                                             <td class="py-4 border-b-2">{{ room.name }}</td>
                                             <td class="py-4 border-b-2 text-center">{{ room.capacity }} <span class="text-gray-400">person</span></td>

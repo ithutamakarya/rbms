@@ -51,6 +51,8 @@ class RegisteredUserController extends Controller
 
     public function index()
     {
+        $users = User::paginate(10);
         
+        return Inertia::render('User/Index', compact('users'));
     }
 }
