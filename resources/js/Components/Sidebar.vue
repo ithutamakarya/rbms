@@ -1,10 +1,12 @@
 <template>
     <aside class="w-64 h-screen fixed bg-gray-800 space-y-4">
         <nav class="flex flex-col h-full">
-            <div class="bg-black py-8 px-4">
-                <img src="/logo.png" class="w-24 mb-4" alt="Logo Hutama Karya">
-                <h1 class="font-bold text-xl text-white">Room Booking Management System</h1>
-            </div>
+            <Link :href="route('dashboard')">
+                <div class="bg-black py-8 px-4">
+                    <img src="/logo.png" class="w-24 mb-4" alt="Logo Hutama Karya">
+                    <h1 class="font-bold text-xl text-white">Room Booking Management System</h1>
+                </div>
+            </Link>
             <div class="flex flex-1 flex-col">
                 <ul class="p-4 flex-1">
                     <li class="my-2">
@@ -41,29 +43,29 @@
                         <ul v-if="isSidebarDropdownOpen" class="pl-4 mt-2 space-y-2">
                             <li>
                                 <Link
-                                    href="/master-data/organization"
-                                    :class="getMenuClass('master-data.organization')">
+                                    :href="route('organizations.index')"
+                                    :class="getMenuClass('organizations')">
                                     Organization
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    href="/master-data/users"
-                                    :class="getMenuClass('master-data.users')">
+                                    :href="route('users.index')"
+                                    :class="getMenuClass('users')">
                                     User
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    href="/rooms"
+                                    :href="route('rooms.index')"
                                     :class="getMenuClass('rooms')">
                                     Rooms
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    href="/master-data/books"
-                                    :class="getMenuClass('master-data.books')">
+                                    :href="route('books.index')"
+                                    :class="getMenuClass('books')">
                                     Books
                                 </Link>
                             </li>
