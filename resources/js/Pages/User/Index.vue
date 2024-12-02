@@ -98,10 +98,10 @@ const handleDelete = () => {
                                         <tr v-for="(user, index) in props.users.data" :key="index" >
                                             <td class="py-4 border-b-2 text-center">{{ index + 1 }}</td>
                                             <td class="py-4 border-b-2">{{ user.name }}</td>
-                                            <td class="py-4 border-b-2 text-center">{{ user.organization ? user.organization : 'not set' }}</td>
+                                            <td class="py-4 border-b-2 text-center">{{ user.organization_id ? user.organization.name : 'not set' }}</td>
                                             <td class="py-4 border-b-2 text-center">{{ user.role }}</td>
                                             <td class="py-4 border-b-2 text-center flex justify-center gap-x-4">
-                                                <Link :href="`/users/${user.id}/edit`" class="text-blue-500 underline">Edit</Link>
+                                                <Link :href="route('users.edit', user.id)" class="text-blue-500 underline">Edit</Link>
                                                 <p @click="openDeleteModal(user.id)" class="cursor-pointer text-blue-500 underline">Delete</p>
                                             </td>
                                         </tr>

@@ -18,12 +18,12 @@
                     </li>
                     <li class="my-2">
                         <Link
-                            href="/booking"
+                            :href="route('books.index')"
                             :class="getMenuClass('booking')">
                             Booking
                         </Link>
                     </li>
-                    <template v-if="isAdmin($page.props.auth.user.role)">
+                    <template v-if="isAdmin">
                         <li class="my-2">
                             <button
                                 @click="dataStore.toggleSidebarDropdown"
@@ -82,26 +82,50 @@
                     </template>
                 </ul>
                 <div class="h-24 px-4 py-4 w-full">
-                    <ResponsiveNavLink
-                        class="text-black hover:bg-transparent pe-0 py-0"
-                        :href="route('logout')" method="post" as="button">
-                    <div
-                        @mouseenter="isHovered = true"
-                        @mouseleave="isHovered = false"
-                        class="p-4 flex justify-between items-center cursor-pointer hover:bg-red-500 hover:text-white rounded-lg w-full bg-gray-400 text-left"
-                    >
-                        <span>{{ isHovered ? 'Logout' : $page.props.auth.user.name }}</span>
-                        <svg
-                            class="inline-block w-4 h-4 transition-transform transform ml-2 rotate-270"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </div>
-                    </ResponsiveNavLink>
+                    <template v-if="$page.props?.auth?.user">
+                        <ResponsiveNavLink
+                            class="text-black hover:bg-transparent pe-0 py-0"
+                            :href="route('logout')" method="post" as="button">
+                            <div
+                                @mouseenter="isHovered = true"
+                                @mouseleave="isHovered = false"
+                                class="p-4 flex justify-between items-center cursor-pointer hover:bg-red-500 hover:text-white rounded-lg w-full bg-gray-400 text-left"
+                            >
+                                <span>{{ isHovered ? 'Logout' : $page.props.auth.user.name }}</span>
+                                <svg
+                                    class="inline-block w-4 h-4 transition-transform transform ml-2 rotate-270"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </ResponsiveNavLink>
+                    </template>
+                    <template v-else>
+                        <ResponsiveNavLink
+                            class="text-black hover:bg-transparent pe-0 py-0"
+                            :href="route('login')" as="button">
+                            <div
+                                @mouseenter="isHovered = true"
+                                @mouseleave="isHovered = false"
+                                class="p-4 flex justify-between items-center cursor-pointer hover:bg-green-600 hover:text-white rounded-lg w-full bg-gray-400 text-left"
+                            >
+                                <span>Login</span>
+                                <svg
+                                    class="inline-block w-4 h-4 transition-transform transform ml-2 rotate-270"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </ResponsiveNavLink>
+                    </template>
                 </div>
             </div>
         </nav>
@@ -111,18 +135,19 @@
 <script setup>
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { useDataStore } from '@/stores/dataStore';
-import { Link } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
+import { computed, onMounted, ref } from 'vue';
 
 // State
 const dataStore = useDataStore();
 const isHovered = ref(false);
 const isSidebarDropdownOpen = computed(() => dataStore.isSidebarDropdownOpen);
+const { props } = usePage()
 
-const isAdmin = (role) => {
-    if (role == 'admin' || role == 'superadmin') return true
-    return false
-}
+const isAdmin = computed(() => {
+    const role = props.auth?.user?.role || '';
+    return role === 'administrator' || role === 'superadmin';
+})
 
 // Helper Function for Menu Class
 const getMenuClass = (routeName) => {
