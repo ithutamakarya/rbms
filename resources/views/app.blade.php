@@ -14,6 +14,9 @@
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
+        <script>
+            window.user = @json(Auth::user());
+        </script>
     </head>
     <body class="font-sans antialiased">
         @inertia

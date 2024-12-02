@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -51,6 +52,24 @@ class RegisteredUserController extends Controller
 
     public function index()
     {
+        $users = User::with('organization')->paginate(10);
         
+        return Inertia::render('User/Index', compact('users'));
+    }
+
+    public function edit(User $user)
+    {
+        $organizations = Organization::all();
+        return Inertia::render('User/Edit', compact('user', 'organizations'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $user->fill($request->all());
+        $user['organization_id'] = $request['division'];
+
+        $user->save();
+
+        return back();
     }
 }
