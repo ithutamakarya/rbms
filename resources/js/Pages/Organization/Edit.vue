@@ -23,17 +23,17 @@ const dataStore = useDataStore()
 const submit = () => {
     form.patch(route('organizations.update', props.organization.id), {
         onSuccess: () => {
-            dataStore.setAlertSuccess("The organization updated successfully!")
+            dataStore.setAlertSuccess("Berhasil memperbarui data divisi!")
         },
         onError: (errors) => {
-            dataStore.setAlertError("Failed to update the organization!")
+            dataStore.setAlertError("Gagal memperbarui data divisi!")
         }
     });
 };
 </script>
 
 <template>
-    <Head title="Master Data Organization" />
+    <Head title="Master Data Divisi" />
 
     <AuthenticatedLayout>
         <div class="max-w-7xl mx-auto">
@@ -42,14 +42,14 @@ const submit = () => {
                     <div class="w-1/2">
                         <div class="mb-8">
                             <p class="mb-2 text-sm">
-                                <Link class="text-blue-500" :href="route('organizations.index')">Organization</Link> / 
+                                <Link class="text-blue-500" :href="route('organizations.index')">Divisi</Link> / 
                                 <span class="text-gray-500">Edit</span>
                             </p>
-                            <h1 class="font-semibold text-xl">Edit Existing Organization</h1>
+                            <h1 class="font-semibold text-xl">Edit Data Divisi</h1>
                         </div>
                         <form @submit.prevent="submit">
                             <div class="mb-4">
-                                <label for="name" class="block mb-2 font-medium text-gray-500">Name</label>
+                                <label for="name" class="block mb-2 font-medium text-gray-500">Nama</label>
                                 <input
                                     type="text"
                                     id="name"
@@ -66,7 +66,7 @@ const submit = () => {
                                     class="bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg px-8 py-2"
                                     :disabled="form.processing"
                                 >
-                                    {{ form.processing ? 'Updating...' : 'Update' }}
+                                    {{ form.processing ? 'Memperbarui...' : 'Perbarui' }}
                                 </button>
                             </div>
                         </form>

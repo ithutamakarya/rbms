@@ -16,18 +16,18 @@ const dataStore = useDataStore()
 const submit = () => {
     form.post(route('rooms.store'), {
         onSuccess: () => {
-            dataStore.setAlertSuccess('Berhasil menambahkan ruangan baru!')
+            dataStore.setAlertSuccess('New room created successfully!')
         },
         onError: (error) => {
             console.error("Room creation error: ", error)
-            dataStore.setAlertError("Gagal menambahkan ruangan baru!")
+            dataStore.setAlertError("Failed to create new room!")
         }
     });
 };
 </script>
 
 <template>
-    <Head title="Master Data Ruangan" />
+    <Head title="Room Master Data" />
 
     <AuthenticatedLayout>
         <div class="max-w-7xl mx-auto">
@@ -36,14 +36,14 @@ const submit = () => {
                     <div class="w-1/2">
                         <div class="mb-8">
                             <p class="mb-2 text-sm">
-                                <Link class="text-blue-500" href="/rooms">Ruangan</Link> / 
+                                <Link class="text-blue-500" :href="route('books.index')">Booking</Link> / 
                                 <span class="text-gray-500">Tambah</span>
                             </p>
-                            <h1 class="font-semibold text-xl">Tambah Ruangan Baru</h1>
+                            <h1 class="font-semibold text-xl">Booking Ruang Rapat</h1>
                         </div>
                         <form @submit.prevent="submit">
                             <div class="mb-4">
-                                <label for="name" class="block mb-2 font-medium text-gray-500">Nama</label>
+                                <label for="name" class="block mb-2 font-medium text-gray-500">Name</label>
                                 <input
                                     type="text"
                                     id="name"
@@ -55,7 +55,7 @@ const submit = () => {
                                 <span v-if="form.errors.name" class="text-red-500 text-sm">{{ form.errors.name }}</span>
                             </div>
                             <div class="mb-4">
-                                <label for="floor" class="block mb-2 font-medium text-gray-500">Lantai</label>
+                                <label for="floor" class="block mb-2 font-medium text-gray-500">Floor</label>
                                 <input
                                     type="number"
                                     id="floor"
@@ -67,7 +67,7 @@ const submit = () => {
                                 <span v-if="form.errors.floor" class="text-red-500 text-sm">{{ form.errors.floor }}</span>
                             </div>
                             <div class="mb-4">
-                                <label for="capacity" class="block mb-2 font-medium text-gray-500">Kapasitas</label>
+                                <label for="capacity" class="block mb-2 font-medium text-gray-500">Capacity</label>
                                 <input
                                     type="number"
                                     id="capacity"
@@ -84,7 +84,7 @@ const submit = () => {
                                     class="bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg px-8 py-2"
                                     :disabled="form.processing"
                                 >
-                                    {{ form.processing ? 'Menambahkan...' : 'Tambah' }}
+                                    {{ form.processing ? 'Creating...' : 'Create' }}
                                 </button>
                             </div>
                         </form>

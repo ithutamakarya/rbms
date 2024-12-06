@@ -35,10 +35,10 @@ const dataStore = useDataStore()
 const submit = () => {
     form.patch(route('profile.update', user.id), {
         onSuccess: () => {
-            dataStore.setAlertSuccess("Profile updated successfully!")
+            dataStore.setAlertSuccess("Profil berhasil duperbarui!")
         },
         onError: (errors) => {
-            dataStore.setAlertError("Failed to update profile!")
+            dataStore.setAlertError("Gagal memperbarui profil!")
         }
     });
 };
@@ -48,10 +48,10 @@ const updatePassword = () => {
         preserveScroll: true,
         onSuccess: () => {
             changePasswordForm.reset();
-            dataStore.setAlertSuccess('Your password updated successfully!');
+            dataStore.setAlertSuccess('Password berhasil diperbarui!');
         },
         onError: () => {
-            dataStore.setAlertError('Failed to update your password!');
+            dataStore.setAlertError('Gagal memperbarui password!');
             if (form.errors.password) {
                 form.reset('password', 'password_confirmation');
             }
@@ -64,7 +64,7 @@ const updatePassword = () => {
 </script>
 
 <template>
-    <Head title="Profile" />
+    <Head title="Profil" />
 
     <AuthenticatedLayout>
         <div class="max-w-7xl mx-auto">
@@ -72,11 +72,11 @@ const updatePassword = () => {
                 <div class="p-8 text-gray-900">
                     <div class="w-1/2">
                         <div class="mb-8">
-                            <h1 class="font-semibold text-xl">Edit User Profile</h1>
+                            <h1 class="font-semibold text-xl">Edit Profil Pengguna</h1>
                         </div>
                         <form @submit.prevent="submit">
                             <div class="mb-4">
-                                <label for="name" class="block mb-2 font-medium text-gray-500">Name</label>
+                                <label for="name" class="block mb-2 font-medium text-gray-500">Nama</label>
                                 <input
                                     type="text"
                                     id="name"
@@ -101,7 +101,7 @@ const updatePassword = () => {
                                 <span v-if="form.errors.name" class="text-red-500 text-sm">{{ form.errors.email }}</span>
                             </div>
                             <div class="mb-4">
-                                <label for="division" class="block mb-2 font-medium text-gray-500">Division</label>
+                                <label for="division" class="block mb-2 font-medium text-gray-500">Divisi</label>
                                 <select
                                     type="text"
                                     id="division"
@@ -110,7 +110,7 @@ const updatePassword = () => {
                                     :class="{ 'border-red-500': form.errors.division }"
                                     required
                                 >
-                                    <option selected disabled value="0">Select division...</option>
+                                    <option selected disabled value="0">Pilih divisi...</option>
                                     <option v-for="(division, index) in organizations" :key="index" :value="division.id">{{ division.name }}</option>
                                 </select>
                                 <span v-if="form.errors.name" class="text-red-500 text-sm">{{ form.errors.division }}</span>
@@ -121,7 +121,7 @@ const updatePassword = () => {
                                     class="bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg px-8 py-2"
                                     :disabled="form.processing"
                                 >
-                                    {{ form.processing ? 'Updating...' : 'Update' }}
+                                    {{ form.processing ? 'Memperbarui...' : 'Perbarui' }}
                                 </button>
                             </div>
                         </form>
@@ -135,11 +135,11 @@ const updatePassword = () => {
                 <div class="p-8 text-gray-900">
                     <div class="w-1/2">
                         <div class="mb-8">
-                            <h1 class="font-semibold text-xl">Change User Password</h1>
+                            <h1 class="font-semibold text-xl">Ubah Password Pengguna</h1>
                         </div>
                         <form @submit.prevent="updatePassword">
                             <div class="mb-4">
-                                <label for="current_password" class="block mb-2 font-medium text-gray-500">Current Password</label>
+                                <label for="current_password" class="block mb-2 font-medium text-gray-500">Password Sekarang</label>
                                 <input
                                     type="password"
                                     id="current_password"
@@ -151,7 +151,7 @@ const updatePassword = () => {
                                 <span v-if="changePasswordForm.errors.current_password" class="text-red-500 text-sm">{{ changePasswordForm.errors.current_password }}</span>
                             </div>
                             <div class="mb-4">
-                                <label for="password" class="block mb-2 font-medium text-gray-500">New Password</label>
+                                <label for="password" class="block mb-2 font-medium text-gray-500">Password Baru</label>
                                 <input
                                     type="password"
                                     id="password"
@@ -163,7 +163,7 @@ const updatePassword = () => {
                                 <span v-if="changePasswordForm.errors.password" class="text-red-500 text-sm">{{ changePasswordForm.errors.password }}</span>
                             </div>
                             <div class="mb-4">
-                                <label for="password_confirmation" class="block mb-2 font-medium text-gray-500">Confirm Password</label>
+                                <label for="password_confirmation" class="block mb-2 font-medium text-gray-500">Konfirmasi Password</label>
                                 <input
                                     type="password"
                                     id="password_confirmation"
@@ -180,7 +180,7 @@ const updatePassword = () => {
                                     class="bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg px-8 py-2"
                                     :disabled="changePasswordForm.processing"
                                 >
-                                    {{ changePasswordForm.processing ? 'Updating...' : 'Update' }}
+                                    {{ changePasswordForm.processing ? 'Memperbarui...' : 'Perbarui' }}
                                 </button>
                             </div>
                         </form>
