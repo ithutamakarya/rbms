@@ -49,7 +49,7 @@ const handleDelete = () => {
 </script>
 
 <template>
-    <Head title="Master Data Organization" />
+    <Head title="Master Data Divisi" />
 
     <AuthenticatedLayout>
         <div>
@@ -58,22 +58,22 @@ const handleDelete = () => {
                     <div class="p-6 text-gray-900">
                         <Modal :show="isModalOpen" @close="closeModal">
                             <div class="p-6">
-                                <h2 class="text-gray-900">Are you sure you want to delete this organization?</h2>
+                                <h2 class="text-gray-900">Apakah anda yakin ingin menghapus data divisi ini?</h2>
                                 <div class="mt-6 flex justify-end gap-x-4">
-                                    <button class="px-4 py-2 hover:bg-gray-100 duration-100 border rounded-lg" @click="closeModal">Cancel</button>
+                                    <button class="px-4 py-2 hover:bg-gray-100 duration-100 border rounded-lg" @click="closeModal">Batal</button>
                                     <button
                                         class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded-lg border border-red-700 duration-100 text-white"
                                         :class="{ 'opacity-25': form.processing }"
                                         :disabled="form.processing"
                                         @click="handleDelete"
                                     >
-                                        {{ form.processing ? 'Deleting...' : 'Delete' }}
+                                        {{ form.processing ? 'Menghapus...' : 'Hapus' }}
                                     </button>
                                 </div>
                             </div>
                         </Modal>
                         <div class="flex justify-between items-center mb-8">
-                            <h1 class="font-semibold text-xl">Master Data: Organization</h1>
+                            <h1 class="font-semibold text-xl">Master Data: Divisi</h1>
                             <Link :href="route('organizations.create')">
                                 <button class="px-4 py-2 bg-blue-100 hover:bg-blue-200 duration-300 text-blue-700 rounded-lg">Tambah</button>
                             </Link>
@@ -83,15 +83,15 @@ const handleDelete = () => {
                                 <thead>
                                     <tr>
                                         <th class="py-4 border-b-2 w-[120px]">#</th>
-                                        <th class="py-4 border-b-2 w-full text-left">Name</th>
-                                        <th class="py-4 border-b-2 w-[240px]">Action</th>
+                                        <th class="py-4 border-b-2 w-full text-left">Nama</th>
+                                        <th class="py-4 border-b-2 w-[240px]">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <template v-if="props.organizations.data.length == 0">
                                         <tr>
                                             <td class="text-center py-4 text-gray-500" colspan="5">
-                                                There is no organization data yet, add some
+                                                Belum ada master data divisi satu pun, tambahkan beberapa..
                                             </td>
                                         </tr>
                                     </template>
@@ -101,7 +101,7 @@ const handleDelete = () => {
                                             <td class="py-4 border-b-2">{{ organization.name }}</td>
                                             <td class="py-4 border-b-2 text-center flex justify-center gap-x-4">
                                                 <Link :href="route('organizations.edit', organization.id)" class="text-blue-500 underline">Edit</Link>
-                                                <p @click="openDeleteModal(organization.id)" class="cursor-pointer text-blue-500 underline">Delete</p>
+                                                <p @click="openDeleteModal(organization.id)" class="cursor-pointer text-blue-500 underline">Hapus</p>
                                             </td>
                                         </tr>
                                     </template>
