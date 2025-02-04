@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Book extends Model
 {
     protected $fillable = [
+        'title',
         'room_id',
-        'requester',
-        'booking_date',
+        'requester_id',
         'start_hour',
         'finish_hour',
+        'start_date',
+        'end_date',
         'status',
+        'notes',
     ];
 }

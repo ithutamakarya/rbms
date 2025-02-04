@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class BookController extends Controller
@@ -31,7 +32,22 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'room_id' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date',
+            'start_hour' => 'required',
+            'finish_hour' => 'required',
+            'notes' => 'nullable',
+        ]);
+
+        $book = $validated;
+        $book['requester_id'] = Auth::user()->id;
+        $book['status'] = 'pending';
+
+        Book::create($book);
+        return redirect(route('books.index'))->with('success', 'Berhasil melakukan pemesanan ruang rapat!');
     }
 
     /**

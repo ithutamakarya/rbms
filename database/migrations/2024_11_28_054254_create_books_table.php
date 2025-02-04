@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('room_id');
             $table->foreignId('requester_id');
             $table->string('title');
-            $table->date('booking_date');
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->time('start_hour');

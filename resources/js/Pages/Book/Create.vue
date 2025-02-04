@@ -6,11 +6,11 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 // Define form state using Inertia's useForm
 const form = useForm({
     title: '',
-    room: '',
-    startDate: '',
-    endDate: '',
-    startHour: '',
-    finishHour: '',
+    room_id: '',
+    start_date: '',
+    end_date: '',
+    start_hour: '',
+    finish_hour: '',
     notes: '',
     isMultipleDate: false,
 });
@@ -28,20 +28,20 @@ const dataStore = useDataStore()
 
 // Function to handle form submission
 const submit = () => {
-    form.post(route('rooms.store'), {
+    form.post(route('books.store'), {
         onSuccess: () => {
-            dataStore.setAlertSuccess('New room created successfully!')
+            dataStore.setAlertSuccess('Berhasil melakukan pemesanan ruangan!')
         },
         onError: (error) => {
             console.error("Room creation error: ", error)
-            dataStore.setAlertError("Failed to create new room!")
+            dataStore.setAlertError("Gagal melakukan pemesanan ruangan!")
         }
     });
 };
 </script>
 
 <template>
-    <Head title="Room Master Data" />
+    <Head title="Pesan Ruang Rapat" />
 
     <AuthenticatedLayout>
         <div class="max-w-7xl mx-auto">
@@ -60,6 +60,7 @@ const submit = () => {
                             <input
                                 type="text"
                                 id="title"
+                                name="title"
                                 v-model="form.title"
                                 class="w-full rounded-lg p-2 outline-0 border-2 border-gray-200"
                                 :class="{ 'border-red-500': form.errors.title }"
@@ -69,45 +70,47 @@ const submit = () => {
                         </div>
                         <div class="w-1/2">
                             <div class="mb-4">
-                                <label for="room" class="block mb-2 font-medium text-gray-500">Ruangan</label>
+                                <label for="room_id" class="block mb-2 font-medium text-gray-500">Ruangan</label>
                                 <select 
                                     class="w-full rounded-lg p-2 outline-0 border-2 border-gray-200"
-                                    :class="{ 'border-red-500': form.errors.room }"
-                                    v-model="form.room"
-                                    name="room"
-                                    id="room"
+                                    :class="{ 'border-red-500': form.errors.room_id }"
+                                    v-model="form.room_id"
+                                    name="room_id"
+                                    id="room_id"
                                     required
                                 >
                                     <option value="" selected disabled class="text-gray-400">--- Pilih ruangan ---</option>
                                     <option v-for="room in rooms" :key="room.id" :value="room.id">{{ room.name }}</option>
                                 </select>
-                                <span v-if="form.errors.room" class="text-red-500 text-sm">{{ form.errors.room }}</span>
+                                <span v-if="form.errors.room_id" class="text-red-500 text-sm">{{ form.errors.room_id }}</span>
                             </div>
                         </div>
                         <div class="flex gap-x-4">
                             <div class="w-1/2 mb-4">
-                                <label for="startDate" class="block mb-2 font-medium text-gray-500">Tanggal Mulai</label>
+                                <label for="start_date" class="block mb-2 font-medium text-gray-500">Tanggal Mulai</label>
                                 <input
                                     type="date"
-                                    id="startDate"
-                                    v-model="form.startDate"
+                                    id="start_date"
+                                    name="start_date"
+                                    v-model="form.start_date"
                                     class="w-full rounded-lg p-2 outline-0 border-2 border-gray-200"
-                                    :class="{ 'border-red-500': form.errors.startDate }"
+                                    :class="{ 'border-red-500': form.errors.start_date }"
                                     required
                                 />
-                                <span v-if="form.errors.startDate" class="text-red-500 text-sm">{{ form.errors.startDate }}</span>
+                                <span v-if="form.errors.start_date" class="text-red-500 text-sm">{{ form.errors.start_date }}</span>
                             </div>
                             <div v-if="form.isMultipleDate" class="w-1/2 mb-4">
-                                <label for="endDate" class="block mb-2 font-medium text-gray-500">Tanggal Selesai</label>
+                                <label for="end_date" class="block mb-2 font-medium text-gray-500">Tanggal Selesai</label>
                                 <input
                                     type="date"
-                                    id="endDate"
-                                    v-model="form.endDate"
+                                    id="end_date"
+                                    name="end_date"
+                                    v-model="form.end_date"
                                     class="w-full rounded-lg p-2 outline-0 border-2 border-gray-200"
-                                    :class="{ 'border-red-500': form.errors.endDate }"
+                                    :class="{ 'border-red-500': form.errors.end_date }"
                                     required
                                 />
-                                <span v-if="form.errors.endDate" class="text-red-500 text-sm">{{ form.errors.endDate }}</span>
+                                <span v-if="form.errors.end_date" class="text-red-500 text-sm">{{ form.errors.end_date }}</span>
                             </div>
                         </div>
                         <div class="mb-4 flex items-center">
@@ -121,28 +124,30 @@ const submit = () => {
                         </div>
                         <div class="flex gap-x-4">
                             <div class="w-1/2 mb-4">
-                                <label for="startHour" class="block mb-2 font-medium text-gray-500">Jam Mulai</label>
+                                <label for="start_hour" class="block mb-2 font-medium text-gray-500">Jam Mulai</label>
                                 <input
                                     type="time"
-                                    id="startHour"
-                                    v-model="form.startHour"
+                                    id="start_hour"
+                                    name="start_hour"
+                                    v-model="form.start_hour"
                                     class="w-full rounded-lg p-2 outline-0 border-2 border-gray-200"
-                                    :class="{ 'border-red-500': form.errors.startHour }"
+                                    :class="{ 'border-red-500': form.errors.start_hour }"
                                     required
                                 />
-                                <span v-if="form.errors.startHour" class="text-red-500 text-sm">{{ form.errors.startHour }}</span>
+                                <span v-if="form.errors.start_hour" class="text-red-500 text-sm">{{ form.errors.start_hour }}</span>
                             </div>
                             <div class="w-1/2 mb-4">
-                                <label for="finishHour" class="block mb-2 font-medium text-gray-500">Jam Selesai</label>
+                                <label for="finish_hour" class="block mb-2 font-medium text-gray-500">Jam Selesai</label>
                                 <input
                                     type="time"
-                                    id="finishHour"
-                                    v-model="form.finishHour"
+                                    id="finish_hour"
+                                    name="finish_hour"
+                                    v-model="form.finish_hour"
                                     class="w-full rounded-lg p-2 outline-0 border-2 border-gray-200"
-                                    :class="{ 'border-red-500': form.errors.finishHour }"
+                                    :class="{ 'border-red-500': form.errors.finish_hour }"
                                     required
                                 />
-                                <span v-if="form.errors.finishHour" class="text-red-500 text-sm">{{ form.errors.finishHour }}</span>
+                                <span v-if="form.errors.finish_hour" class="text-red-500 text-sm">{{ form.errors.finish_hour }}</span>
                             </div>
                         </div>
                         <div class="mb-4">
@@ -152,7 +157,6 @@ const submit = () => {
                                 v-model="form.notes"
                                 class="w-full rounded-lg p-2 outline-0 border-2 border-gray-200"
                                 :class="{ 'border-red-500': form.errors.notes }"
-                                required
                             ></textarea>
                             <span v-if="form.errors.notes" class="text-red-500 text-sm">{{ form.errors.notes }}</span>
                         </div>
