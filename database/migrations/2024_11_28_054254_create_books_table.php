@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('room_id');
+            $table->foreignId('requester_id');
+            $table->string('title');
+            $table->date('booking_date');
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
+            $table->time('start_hour');
+            $table->time('finish_hour');
+            $table->string('status');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

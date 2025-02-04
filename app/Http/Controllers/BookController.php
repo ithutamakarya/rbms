@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -21,7 +22,8 @@ class BookController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Book/Create');
+        $rooms = Room::all();
+        return Inertia::render('Book/Create', compact('rooms'));
     }
 
     /**
