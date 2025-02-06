@@ -6,7 +6,7 @@ import { ref } from 'vue';
 import { useDataStore } from '@/stores/dataStore';
 
 const props = defineProps({
-    organizations: {
+    books: {
         type: Object,
         default: {
             data: []
@@ -19,37 +19,37 @@ const dataStore = useDataStore()
 const form = useForm({});
 
 const isModalOpen = ref(false);
-const selectedOrganizationId = ref(null);
+const selectedBookId = ref(null);
 
 const closeModal = () => {
     isModalOpen.value = false;
-    selectedOrganizationId.value = null;
+    selectedBookId.value = null;
 };
 
 const openDeleteModal = (id) => {
-    selectedOrganizationId.value = id;
+    selectedBookId.value = id;
     isModalOpen.value = true;
 };
 
 const handleDelete = () => {
-    if (!selectedOrganizationId.value) return;
+    if (!selectedBookId.value) return;
 
-    form.delete(route('organizations.destroy', selectedOrganizationId.value), {
+    form.delete(route('books.destroy', selectedBookId.value), {
         onSuccess: () => {
             isModalOpen.value = false;
-            selectedOrganizationId.value = null;
-            dataStore.setAlertSuccess('The organization deleted successfully')
+            selectedBookId.value = null;
+            dataStore.setAlertSuccess('Berhasil menghapus pesanan ruangan!')
         },
         onError: (error) => {
             console.error("Deletion failed:", error);
-            dataStore.setAlertError('The organization failed to delete')
+            dataStore.setAlertError('Gagal menghapus pesanan ruangan!')
         },
     });
 };
 </script>
 
 <template>
-    <Head title="Master Data Divisi" />
+    <Head title="Manajemen Booking" />
 
     <AuthenticatedLayout>
         <div>
@@ -58,7 +58,7 @@ const handleDelete = () => {
                     <div class="p-6 text-gray-900">
                         <Modal :show="isModalOpen" @close="closeModal">
                             <div class="p-6">
-                                <h2 class="text-gray-900">Apakah anda yakin ingin menghapus data divisi ini?</h2>
+                                <h2 class="text-gray-900">Apakah anda yakin ingin menghapus ruangan ini?</h2>
                                 <div class="mt-6 flex justify-end gap-x-4">
                                     <button class="px-4 py-2 hover:bg-gray-100 duration-100 border rounded-lg" @click="closeModal">Batal</button>
                                     <button
@@ -73,8 +73,8 @@ const handleDelete = () => {
                             </div>
                         </Modal>
                         <div class="flex justify-between items-center mb-8">
-                            <h1 class="font-semibold text-xl">Master Data: Divisi</h1>
-                            <Link :href="route('organizations.create')">
+                            <h1 class="font-semibold text-xl">Booking Ruang Rapat</h1>
+                            <Link :href="route('books.create')">
                                 <button class="px-4 py-2 bg-blue-100 hover:bg-blue-200 duration-300 text-blue-700 rounded-lg">Tambah</button>
                             </Link>
                         </div>
@@ -83,25 +83,31 @@ const handleDelete = () => {
                                 <thead>
                                     <tr>
                                         <th class="py-4 border-b-2 w-[120px]">#</th>
-                                        <th class="py-4 border-b-2 w-full text-left">Nama</th>
-                                        <th class="py-4 border-b-2 w-[240px]">Aksi</th>
+                                        <th class="py-4 border-b-2 w-[360px] text-left">Nama Rapat</th>
+                                        <th class="py-4 border-b-2">Ruang</th>
+                                        <th class="py-4 border-b-2">Tanggal</th>
+                                        <th class="py-4 border-b-2">Status</th>
+                                        <th class="py-4 border-b-2">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-if="props.organizations.data.length == 0">
+                                    <template v-if="props.books.length == 0">
                                         <tr>
-                                            <td class="text-center py-4 text-gray-500" colspan="5">
-                                                Belum ada master data divisi satu pun, tambahkan beberapa..
+                                            <td class="text-center py-4 text-gray-500" colspan="7">
+                                                Anda belum pernah melakukan booking ruangan.
                                             </td>
                                         </tr>
                                     </template>
                                     <template v-else>
-                                        <tr v-for="(organization, index) in props.organizations.data" :key="index" >
+                                        <tr v-for="(book, index) in props.books" :key="index" >
                                             <td class="py-4 border-b-2 text-center">{{ index + 1 }}</td>
-                                            <td class="py-4 border-b-2">{{ organization.name }}</td>
+                                            <td class="py-4 border-b-2">{{ book.title }}</td>
+                                            <td class="py-4 border-b-2 text-center">{{ book.room.name }}</td>
+                                            <td class="py-4 border-b-2 text-center">{{ book.start_date }}</td>
+                                            <td class="py-4 border-b-2 text-center">{{ book.status }}</td>
                                             <td class="py-4 border-b-2 text-center flex justify-center gap-x-4">
-                                                <Link :href="route('organizations.edit', organization.id)" class="text-blue-500 underline">Edit</Link>
-                                                <p @click="openDeleteModal(organization.id)" class="cursor-pointer text-blue-500 underline">Hapus</p>
+                                                <Link :href="route('books.edit', book.id)" class="text-blue-500 underline">Edit</Link>
+                                                <p @click="openDeleteModal(book.id)" class="cursor-pointer text-blue-500 underline">Hapus</p>
                                             </td>
                                         </tr>
                                     </template>

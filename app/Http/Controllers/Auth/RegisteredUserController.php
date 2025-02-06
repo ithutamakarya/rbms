@@ -52,7 +52,7 @@ class RegisteredUserController extends Controller
 
     public function index()
     {
-        $users = User::with('organization')->paginate(10);
+        $users = User::with('organization')->where('role', '!=', 'superadmin')->paginate(25);
         
         return Inertia::render('User/Index', compact('users'));
     }

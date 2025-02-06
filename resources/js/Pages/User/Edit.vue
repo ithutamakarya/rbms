@@ -1,7 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { useDataStore } from '@/stores/dataStore';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 
 const props = defineProps({
     user: {
@@ -11,6 +12,10 @@ const props = defineProps({
         type: Object,
     }
 })
+
+const pageProps = usePage().props
+
+const isSuperAdmin = computed(() => pageProps.auth?.user?.role == 'superadmin')
 
 // Define form state using Inertia's useForm
 const form = useForm({
@@ -110,7 +115,7 @@ const updatePassword = () => {
                                 </select>
                                 <span v-if="form.errors.name" class="text-red-500 text-sm">{{ form.errors.division }}</span>
                             </div>
-                            <div class="mb-4">
+                            <div v-if="isSuperAdmin" class="mb-4">
                                 <label for="role" class="block mb-2 font-medium text-gray-500">role</label>
                                 <select
                                     type="text"
@@ -178,7 +183,7 @@ const updatePassword = () => {
                                     class="bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg px-8 py-2"
                                     :disabled="changePasswordForm.processing"
                                 >
-                                    {{ form.processing ? 'Updating...' : 'Update' }}
+                                    {{ changePasswordForm.processing ? 'Updating...' : 'Update' }}
                                 </button>
                             </div>
                         </form>

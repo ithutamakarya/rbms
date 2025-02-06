@@ -46,40 +46,47 @@
                                     <Link
                                         :href="route('organizations.index')"
                                         :class="getMenuClass('organizations')">
-                                        Organization
+                                        Divisi
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
                                         :href="route('users.index')"
                                         :class="getMenuClass('users')">
-                                        User
+                                        Pengguna
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
                                         :href="route('rooms.index')"
                                         :class="getMenuClass('rooms')">
-                                        Rooms
+                                        Ruangan
                                     </Link>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <Link
                                         :href="route('books.index')"
                                         :class="getMenuClass('books')">
-                                        Books
+                                        Data Booking
                                     </Link>
-                                </li>
+                                </li> -->
                             </ul>
                         </li>
                         <li class="my-2">
                             <Link
                                 href="/activity-log"
                                 :class="getMenuClass('activity-log')">
-                                Activity Log
+                                Log Aktivitas
                             </Link>
                         </li>
                     </template>
+                    <li v-if="$page.props?.auth?.user"class="my-2">
+                        <Link
+                            :href="route('profile.edit')"
+                            :class="getMenuClass('profile')">
+                            Profil
+                        </Link>
+                    </li>
                 </ul>
                 <div class="h-24 px-4 py-4 w-full">
                     <template v-if="$page.props?.auth?.user">
@@ -91,7 +98,7 @@
                                 @mouseleave="isHovered = false"
                                 class="p-4 flex justify-between items-center cursor-pointer hover:bg-red-500 hover:text-white rounded-lg w-full bg-gray-400 text-left"
                             >
-                                <span>{{ isHovered ? 'Logout' : $page.props.auth.user.name }}</span>
+                                <span>{{ isHovered ? 'Keluar' : displayName }}</span>
                                 <svg
                                     class="inline-block w-4 h-4 transition-transform transform ml-2 rotate-270"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -144,10 +151,24 @@ const isHovered = ref(false);
 const isSidebarDropdownOpen = computed(() => dataStore.isSidebarDropdownOpen);
 const { props } = usePage()
 
+const fullName = ref(props.auth?.user?.name || '')
+const displayName = computed(() => fullName.value.length > 14 ? trimString(fullName.value) : fullName.value)
+
 const isAdmin = computed(() => {
     const role = props.auth?.user?.role || '';
     return role === 'administrator' || role === 'superadmin';
 })
+
+function trimString(str) {
+  if (str.length > 14) {
+    let trimmed = str.slice(0, 14);
+    if (trimmed[13] === ' ') {
+      trimmed = trimmed.trimEnd();
+    }
+    return `${trimmed}...`;
+  }
+  return str;
+}
 
 // Helper Function for Menu Class
 const getMenuClass = (routeName) => {

@@ -12,18 +12,18 @@ const dataStore = useDataStore()
 const submit = () => {
     form.post(route('organizations.store'), {
         onSuccess: () => {
-            dataStore.setAlertSuccess('New organization created successfully!')
+            dataStore.setAlertSuccess('Berhasil menambahkan divisi baru!')
         },
         onError: (error) => {
             console.error("Organization creation error: ", error)
-            dataStore.setAlertError("Failed to create new organization!")
+            dataStore.setAlertError("Gagal menambahkan divisi!")
         }
     });
 };
 </script>
 
 <template>
-    <Head title="Master Data Organization" />
+    <Head title="Master Data Divisi" />
 
     <AuthenticatedLayout>
         <div class="max-w-7xl mx-auto">
@@ -32,14 +32,14 @@ const submit = () => {
                     <div class="w-1/2">
                         <div class="mb-8">
                             <p class="mb-2 text-sm">
-                                <Link class="text-blue-500" :href="route('organizations.index')">Organization</Link> / 
-                                <span class="text-gray-500">Create</span>
+                                <Link class="text-blue-500" :href="route('organizations.index')">Divisi</Link> / 
+                                <span class="text-gray-500">Tambah</span>
                             </p>
-                            <h1 class="font-semibold text-xl">Add New Organization</h1>
+                            <h1 class="font-semibold text-xl">Tambah Divisi Baru</h1>
                         </div>
                         <form @submit.prevent="submit">
                             <div class="mb-4">
-                                <label for="name" class="block mb-2 font-medium text-gray-500">Name</label>
+                                <label for="name" class="block mb-2 font-medium text-gray-500">Nama</label>
                                 <input
                                     type="text"
                                     id="name"
@@ -56,7 +56,7 @@ const submit = () => {
                                     class="bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg px-8 py-2"
                                     :disabled="form.processing"
                                 >
-                                    {{ form.processing ? 'Creating...' : 'Create' }}
+                                    {{ form.processing ? 'Menambahkan...' : 'Tambah' }}
                                 </button>
                             </div>
                         </form>
