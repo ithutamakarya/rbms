@@ -14,4 +14,9 @@ class Room extends Model
         'capacity',
         'floor',
     ];
+
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
 }

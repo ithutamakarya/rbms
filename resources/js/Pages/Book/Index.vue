@@ -6,7 +6,7 @@ import { ref } from 'vue';
 import { useDataStore } from '@/stores/dataStore';
 
 const props = defineProps({
-    rooms: {
+    books: {
         type: Object,
         default: {
             data: []
@@ -19,37 +19,37 @@ const dataStore = useDataStore()
 const form = useForm({});
 
 const isModalOpen = ref(false);
-const selectedRoomId = ref(null);
+const selectedBookId = ref(null);
 
 const closeModal = () => {
     isModalOpen.value = false;
-    selectedRoomId.value = null;
+    selectedBookId.value = null;
 };
 
 const openDeleteModal = (id) => {
-    selectedRoomId.value = id;
+    selectedBookId.value = id;
     isModalOpen.value = true;
 };
 
 const handleDelete = () => {
-    if (!selectedRoomId.value) return;
+    if (!selectedBookId.value) return;
 
-    form.delete(route('rooms.destroy', selectedRoomId.value), {
+    form.delete(route('books.destroy', selectedBookId.value), {
         onSuccess: () => {
             isModalOpen.value = false;
-            selectedRoomId.value = null;
-            dataStore.setAlertSuccess('The room deleted successfully')
+            selectedBookId.value = null;
+            dataStore.setAlertSuccess('Berhasil menghapus pesanan ruangan!')
         },
         onError: (error) => {
             console.error("Deletion failed:", error);
-            dataStore.setAlertError('The room failed to delete')
+            dataStore.setAlertError('Gagal menghapus pesanan ruangan!')
         },
     });
 };
 </script>
 
 <template>
-    <Head title="Room Master Data" />
+    <Head title="Manajemen Booking" />
 
     <AuthenticatedLayout>
         <div>
@@ -83,16 +83,15 @@ const handleDelete = () => {
                                 <thead>
                                     <tr>
                                         <th class="py-4 border-b-2 w-[120px]">#</th>
-                                        <th class="py-4 border-b-2 text-left">Ruang</th>
+                                        <th class="py-4 border-b-2 w-[360px] text-left">Nama Rapat</th>
+                                        <th class="py-4 border-b-2">Ruang</th>
                                         <th class="py-4 border-b-2">Tanggal</th>
-                                        <th class="py-4 border-b-2">Jam Mulai</th>
-                                        <th class="py-4 border-b-2">Jam Selesai</th>
                                         <th class="py-4 border-b-2">Status</th>
                                         <th class="py-4 border-b-2">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-if="props.rooms.data.length == 0">
+                                    <template v-if="props.books.length == 0">
                                         <tr>
                                             <td class="text-center py-4 text-gray-500" colspan="7">
                                                 Anda belum pernah melakukan booking ruangan.
@@ -100,14 +99,15 @@ const handleDelete = () => {
                                         </tr>
                                     </template>
                                     <template v-else>
-                                        <tr v-for="(room, index) in props.rooms.data" :key="index" >
+                                        <tr v-for="(book, index) in props.books" :key="index" >
                                             <td class="py-4 border-b-2 text-center">{{ index + 1 }}</td>
-                                            <td class="py-4 border-b-2">{{ room.name }}</td>
-                                            <td class="py-4 border-b-2 text-center">{{ room.capacity }} <span class="text-gray-400">orang</span></td>
-                                            <td class="py-4 border-b-2 text-center">lt. {{ room.floor }}</td>
+                                            <td class="py-4 border-b-2">{{ book.title }}</td>
+                                            <td class="py-4 border-b-2 text-center">{{ book.room.name }}</td>
+                                            <td class="py-4 border-b-2 text-center">{{ book.start_date }}</td>
+                                            <td class="py-4 border-b-2 text-center">{{ book.status }}</td>
                                             <td class="py-4 border-b-2 text-center flex justify-center gap-x-4">
-                                                <Link :href="route('rooms.edit', room.id)" class="text-blue-500 underline">Edit</Link>
-                                                <p @click="openDeleteModal(room.id)" class="cursor-pointer text-blue-500 underline">Hapus</p>
+                                                <Link :href="route('books.edit', book.id)" class="text-blue-500 underline">Edit</Link>
+                                                <p @click="openDeleteModal(book.id)" class="cursor-pointer text-blue-500 underline">Hapus</p>
                                             </td>
                                         </tr>
                                     </template>

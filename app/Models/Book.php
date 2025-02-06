@@ -17,4 +17,9 @@ class Book extends Model
         'status',
         'notes',
     ];
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
 }

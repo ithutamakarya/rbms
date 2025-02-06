@@ -15,7 +15,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Book/Index');
+        $books = Book::with('room')->where('requester_id', Auth::user()->id)->get();
+        return Inertia::render('Book/Index', compact('books'));
     }
 
     /**
@@ -63,7 +64,8 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        $rooms = Room::all();
+        return Inertia::render('Book/Edit', compact('book', 'rooms'));
     }
 
     /**
@@ -79,6 +81,8 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+
+        return redirect(route('books.index'))->with('success', 'Berhasil menghapus pesanan ruangan!');
     }
 }
