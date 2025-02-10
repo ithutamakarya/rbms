@@ -42,6 +42,8 @@ Route::middleware(['auth', 'role:superadmin,administrator'])->group(function () 
     
     Route::resource('rooms', RoomController::class);
     Route::resource('manage-books', ManageBookController::class);
+    Route::patch('/manage-books/{book}/approve', [ManageBookController::class, 'approve'])->name('manage-books.approve');
+    Route::patch('/manage-books/{book}/reject', [ManageBookController::class, 'reject'])->name('manage-books.reject');
     Route::resource('organizations', OrganizationController::class);
 });
 

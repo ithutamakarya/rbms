@@ -22,4 +22,9 @@ class Book extends Model
     {
         return $this->belongsTo(Room::class);
     }
+
+    public function requester()
+    {
+        return $this->belongsTo(User::class, 'requester_id');
+    }
 }

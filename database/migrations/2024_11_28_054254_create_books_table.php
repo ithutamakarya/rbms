@@ -22,6 +22,7 @@ return new class extends Migration
             $table->time('finish_hour');
             $table->string('status');
             $table->text('notes')->nullable();
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }

@@ -84,6 +84,7 @@ const handleDelete = () => {
                                     <tr>
                                         <th class="py-4 border-b-2 w-[120px]">#</th>
                                         <th class="py-4 border-b-2 w-full text-left">Nama</th>
+                                        <th class="py-4 border-b-2 w-[180px]">Sigkatan</th>
                                         <th class="py-4 border-b-2 w-[240px]">Aksi</th>
                                     </tr>
                                 </thead>
@@ -99,6 +100,7 @@ const handleDelete = () => {
                                         <tr v-for="(organization, index) in props.organizations.data" :key="index" >
                                             <td class="py-4 border-b-2 text-center">{{ index + 1 }}</td>
                                             <td class="py-4 border-b-2">{{ organization.name }}</td>
+                                            <td class="py-4 border-b-2 text-center">{{ organization.shortname }}</td>
                                             <td class="py-4 border-b-2 text-center flex justify-center gap-x-4">
                                                 <Link :href="route('organizations.edit', organization.id)" class="text-blue-500 underline">Edit</Link>
                                                 <p @click="openDeleteModal(organization.id)" class="cursor-pointer text-blue-500 underline">Hapus</p>

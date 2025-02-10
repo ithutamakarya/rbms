@@ -58,7 +58,7 @@ const handleDelete = () => {
                     <div class="p-6 text-gray-900">
                         <Modal :show="isModalOpen" @close="closeModal">
                             <div class="p-6">
-                                <h2 class="text-gray-900">Apakah anda yakin ingin menghapus ruangan ini?</h2>
+                                <h2 class="text-gray-900">Apakah anda yakin ingin menghapus data booking ruangan ini?</h2>
                                 <div class="mt-6 flex justify-end gap-x-4">
                                     <button class="px-4 py-2 hover:bg-gray-100 duration-100 border rounded-lg" @click="closeModal">Batal</button>
                                     <button

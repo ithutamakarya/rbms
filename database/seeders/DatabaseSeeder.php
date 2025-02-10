@@ -17,16 +17,20 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Organization::create([
-            'name' => 'Engineering & TI'
+            'name' => 'Engineering & TI',
+            'shortname' => 'ETI'
         ]);
         Organization::create([
-            'name' => 'Human Capital'
+            'name' => 'Human Capital',
+            'shortname' => 'HC'
         ]);
         Organization::create([
-            'name' => 'Divisi Sipil Umum'
+            'name' => 'Divisi Sipil Umum',
+            'shortname' => 'DSU'
         ]);
         Organization::create([
-            'name' => 'Perencanaan Jalan Tol'
+            'name' => 'Perencanaan Jalan Tol',
+            'shortname' => 'PJT'
         ]);
 
         Room::create([
@@ -50,6 +54,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'adminrapat@hutamakarya.com',
             'password' => Hash::make('Hutama123!'),
             'role' => 'superadmin'
+        ]);
+
+        User::create([
+            'name' => 'Hilmi Al Muhtade',
+            'email' => 'hilmi.almuhtade@hutamakarya.com',
+            'password' => Hash::make('akunhilmiasli123'),
+            'role' => 'user'
         ]);
     }
 }
