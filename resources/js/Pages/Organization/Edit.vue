@@ -15,6 +15,7 @@ const props = defineProps({
 // Define form state using Inertia's useForm
 const form = useForm({
     name: props.organization.name,
+    shortname: props.organization.shortname,
 });
 
 const dataStore = useDataStore()
@@ -59,6 +60,18 @@ const submit = () => {
                                     required
                                 />
                                 <span v-if="form.errors.name" class="text-red-500 text-sm">{{ form.errors.name }}</span>
+                            </div>
+                            <div class="mb-4">
+                                <label for="shortname" class="block mb-2 font-medium text-gray-500">Nama Singkat</label>
+                                <input
+                                    type="text"
+                                    id="shortname"
+                                    v-model="form.shortname"
+                                    class="w-full rounded-lg p-2 outline-0 border-2 border-gray-200"
+                                    :class="{ 'border-red-500': form.errors.shortname }"
+                                    required
+                                />
+                                <span v-if="form.errors.shortname" class="text-red-500 text-sm">{{ form.errors.shortname }}</span>
                             </div>
                             <div class="mb-4 mt-8 flex">
                                 <button

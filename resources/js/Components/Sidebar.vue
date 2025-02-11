@@ -16,13 +16,24 @@
                             Jadwal Rapat
                         </Link>
                     </li>
-                    <li class="my-2">
-                        <Link
-                            :href="route('books.index')"
-                            :class="getMenuClass('booking')">
-                            Booking
-                        </Link>
-                    </li>
+                    <template v-if="isAdmin">
+                        <li class="my-2">
+                            <Link
+                                :href="route('manage-books.index')"
+                                :class="getMenuClass('manage-books')">
+                                Kelola Booking
+                            </Link>
+                        </li>
+                    </template>
+                    <template v-else>
+                        <li class="my-2">
+                            <Link
+                                :href="route('books.index')"
+                                :class="getMenuClass('books')">
+                                Booking
+                            </Link>
+                        </li>
+                    </template>
                     <template v-if="isAdmin">
                         <li class="my-2">
                             <button

@@ -33,7 +33,7 @@ const dataStore = useDataStore()
 
 // Function to handle form submission
 const submit = () => {
-    form.patch(route('books.update', props.organization.id), {
+    form.patch(route('books.update', props.book.id), {
         onSuccess: () => {
             dataStore.setAlertSuccess("Berhasil memperbarui pemesanan ruangan!")
         },

@@ -16,10 +16,16 @@ class Book extends Model
         'end_date',
         'status',
         'notes',
+        'remarks'
     ];
 
     public function room()
     {
         return $this->belongsTo(Room::class);
+    }
+
+    public function requester()
+    {
+        return $this->belongsTo(User::class, 'requester_id');
     }
 }

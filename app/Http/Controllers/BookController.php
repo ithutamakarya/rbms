@@ -73,7 +73,20 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'room_id' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date',
+            'start_hour' => 'required',
+            'finish_hour' => 'required',
+            'notes' => 'nullable',
+        ]);
+
+        $validated['status'] = 'pending';
+
+        $book->update($validated);
+        return redirect(route('books.index'))->with('success', 'Berhasil memperbarui pesanan ruang rapat!');
     }
 
     /**
