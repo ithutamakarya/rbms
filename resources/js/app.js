@@ -8,11 +8,11 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { createPinia } from 'pinia';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faXmark, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-library.add(faCheck, faXmark)
+library.add(faCheck, faXmark, faCircleNotch)
 
 const pinia = createPinia()
 

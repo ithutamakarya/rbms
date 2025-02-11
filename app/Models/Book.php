@@ -16,6 +16,7 @@ class Book extends Model
         'end_date',
         'status',
         'notes',
+        'remarks'
     ];
 
     public function room()

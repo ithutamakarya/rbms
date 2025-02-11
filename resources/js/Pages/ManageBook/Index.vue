@@ -23,7 +23,9 @@ const rejectForm = useForm({
 
 const isApproveModalOpen = ref(false);
 const isRejectModalOpen = ref(false);
+const isDetailModalOpen = ref(false);
 const selectedBookId = ref(null);
+const selectedBook = ref(null);
 
 const closeApproveModal = () => {
     isApproveModalOpen.value = false;
@@ -44,6 +46,15 @@ const openRejectModal = (id) => {
     selectedBookId.value = id;
     isRejectModalOpen.value = true;
 };
+
+const openDetailModal = (id) => {
+    isDetailModalOpen.value = true;
+    selectedBook.value = props.books.find(item => item.id === id);
+}
+
+const closeDetailModal = () => {
+    isDetailModalOpen.value = false;
+}
 
 const handleApprove = () => {
     if (!selectedBookId.value) return;
@@ -81,6 +92,12 @@ const handleReject = () => {
 
 const formatStandardTime = (time) => {
     return time ? time.slice(0, 5) : '';
+}
+
+const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
 }
 </script>
 
@@ -134,6 +151,42 @@ const formatStandardTime = (time) => {
                                 </div>
                             </form>
                         </Modal>
+                        <Modal :show="isDetailModalOpen" @close="closeDetailModal">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-xl text-gray-900">Detail Pesanan</h2>
+                                    <button class="px-4 py-2 hover:bg-gray-100 duration-100 rounded-full" @click="closeDetailModal">
+                                        <font-awesome-icon icon="xmark" class="" />
+                                    </button>
+                                </div>
+                                <table>
+                                    <tr>
+                                        <th class="text-left pr-8">Nama Rapat</th>
+                                        <td class="py-1">: {{ selectedBook.title }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-left pr-8">Ruang</th>
+                                        <td class="py-1">: Lt. {{ selectedBook.room.floor }} {{ selectedBook.room.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-left pr-8">Tanggal</th>
+                                        <td class="py-1">: {{ selectedBook.start_date }}<span v-if="selectedBook.end_date"><span class="text-gray-400"> s.d.</span> {{ selectedBook.end_date }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-left pr-8">Jam</th>
+                                        <td class="py-1">: {{ formatStandardTime(selectedBook.start_hour) }} - {{ formatStandardTime(selectedBook.finish_hour) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-left pr-8">Status</th>
+                                        <td class="py-1">: {{ selectedBook.status }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-left pr-8">Catatan</th>
+                                        <td class="py-1">: {{ selectedBook.remarks }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </Modal>
                         <div class="flex justify-between items-center mb-8">
                             <h1 class="font-semibold text-xl">Kelola Booking Ruang Rapat</h1>
                         </div>
@@ -148,7 +201,7 @@ const formatStandardTime = (time) => {
                                         <th class="py-4 border-b-2">Jam</th>
                                         <th class="py-4 border-b-2">PIC</th>
                                         <th class="py-4 border-b-2">Status</th>
-                                        <th class="py-4 border-b-2">Aksi</th>
+                                        <th class="py-4 border-b-2 w-[180px]">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -161,24 +214,35 @@ const formatStandardTime = (time) => {
                                     </template>
                                     <template v-else>
                                         <tr v-for="(book, index) in props.books" :key="index" >
-                                            <td class="py-4 text-center">{{ index + 1 }}</td>
-                                            <td class="py-4">{{ book.title }}</td>
-                                            <td class="py-4 text-center">{{ book.room.name }}</td>
-                                            <td v-if="book.end_date" class="py-4 text-center">{{ book.start_date }} s.d. {{ book.end_date }}</td>
-                                            <td v-else class="py-4 text-center">{{ book.start_date }}</td>
-                                            <td class="py-4 text-center">{{ formatStandardTime(book.start_hour) }} - {{ formatStandardTime(book.finish_hour) }}</td>
-                                            <td class="py-4 text-center">{{ book.requester.name }} - {{ book.requester.organization.shortname }}</td>
-                                            <td class="py-4 text-center">{{ book.status }}</td>
-                                            <td v-if="book.status == 'pending'" class="py-4 text-center flex justify-center gap-x-2">
-                                                <p @click="openApproveModal(book.id)" class="cursor-pointer text-green-500 border border-2 rounded-lg hover:border-green-700 hover:bg-green-600 duration-300 hover:text-white py-1 px-2">
-                                                    <font-awesome-icon icon="check" class="text-xs mr-1" /> Setujui
-                                                </p>
-                                                <p @click="openRejectModal(book.id)" class="cursor-pointer text-red-500 border border-2 rounded-lg hover:border-red-700 hover:bg-red-600 duration-300 hover:text-white py-1 px-2">
-                                                    <font-awesome-icon icon="xmark" class="text-xs mr-1" /> Tolak
-                                                </p>
+                                            <td class="py-4 border-b-2 text-center">{{ index + 1 }}</td>
+                                            <td class="py-4 border-b-2">{{ book.title }}</td>
+                                            <td class="py-4 border-b-2 text-center">Lt. {{ book.room.floor }} {{ book.room.name }}</td>
+                                            <td class="py-4 border-b-2 text-center">{{ formatDate(book.start_date) }}<span v-if="book.end_date"> s.d. {{ formatDate(book.end_date) }}</span></td>
+                                            <td class="py-4 border-b-2 text-center">{{ formatStandardTime(book.start_hour) }} - {{ formatStandardTime(book.finish_hour) }}</td>
+                                            <td class="py-4 border-b-2 text-center">{{ book.requester.name }}<span v-if="book.requester.organization"> - {{ book.requester.organization.shortname }}</span></td>
+                                            <td class="py-4 border-b-2 text-center">
+                                                <font-awesome-icon
+                                                    icon="circle-notch"
+                                                    class="text-xs mr-1 "
+                                                    :class="{
+                                                    'text-green-500': book.status === 'approved',
+                                                    'text-red-500': book.status === 'rejected',
+                                                    'text-blue-500': book.status === 'pending'
+                                                    }"
+                                                /> {{ book.status }}
                                             </td>
-                                            <td v-else class="py-4 text-center flex justify-center gap-x-4">
-                                                <span>-</span>
+                                            <td v-if="book.status == 'pending'" class="text-center border-b-2">
+                                                <div class="flex justify-center gap-x-2">
+                                                    <p @click="openApproveModal(book.id)" class="cursor-pointer text-green-500 border border-2 rounded-lg hover:border-green-700 hover:bg-green-600 duration-300 hover:text-white py-1 px-2">
+                                                        <font-awesome-icon icon="check" class="text-xs mr-1" /> Setujui
+                                                    </p>
+                                                    <p @click="openRejectModal(book.id)" class="cursor-pointer text-red-500 border border-2 rounded-lg hover:border-red-700 hover:bg-red-600 duration-300 hover:text-white py-1 px-2">
+                                                        <font-awesome-icon icon="xmark" class="text-xs mr-1" /> Tolak
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td v-else class="py-4 border-b-2 text-center">
+                                                <p @click="openDetailModal(book.id)" class="cursor-pointer text-blue-500 underline">Detail</p>
                                             </td>
                                         </tr>
                                     </template>
