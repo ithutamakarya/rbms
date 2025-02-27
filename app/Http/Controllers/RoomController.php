@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Utils\Text;
 
 class RoomController extends Controller
 {
@@ -30,7 +31,9 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        Room::create($request->all());
+        $record = $request->all();
+        $record['slug'] = Text::slugify($request->name);
+        Room::create($record);
         return redirect(route('rooms.index'))->with('success', 'New room created successfully');
     }
 

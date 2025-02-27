@@ -6,6 +6,7 @@ use App\Http\Controllers\ManageBookController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,9 +20,8 @@ Route::get('/welcome', function () {
     ]);
 })->name('welcome');
 
-Route::get('/', function () {
-    return Inertia::render('Schedule');
-})->name('schedule');
+Route::get('/', [ScheduleController::class, 'index'])->name('schedule');
+Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

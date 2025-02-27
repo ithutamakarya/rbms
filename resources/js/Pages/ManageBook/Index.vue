@@ -160,30 +160,32 @@ const formatDate = (dateString) => {
                                     </button>
                                 </div>
                                 <table>
-                                    <tr>
-                                        <th class="text-left pr-8">Nama Rapat</th>
-                                        <td class="py-1">: {{ selectedBook.title }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-left pr-8">Ruang</th>
-                                        <td class="py-1">: Lt. {{ selectedBook.room.floor }} {{ selectedBook.room.name }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-left pr-8">Tanggal</th>
-                                        <td class="py-1">: {{ selectedBook.start_date }}<span v-if="selectedBook.end_date"><span class="text-gray-400"> s.d.</span> {{ selectedBook.end_date }}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-left pr-8">Jam</th>
-                                        <td class="py-1">: {{ formatStandardTime(selectedBook.start_hour) }} - {{ formatStandardTime(selectedBook.finish_hour) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-left pr-8">Status</th>
-                                        <td class="py-1">: {{ selectedBook.status }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-left pr-8">Catatan</th>
-                                        <td class="py-1">: {{ selectedBook.remarks }}</td>
-                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-left pr-8">Nama Rapat</th>
+                                            <td class="py-1">: {{ selectedBook.title }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left pr-8">Ruang</th>
+                                            <td class="py-1">: Lt. {{ selectedBook.room.floor }} {{ selectedBook.room.name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left pr-8">Tanggal</th>
+                                            <td class="py-1">: {{ selectedBook.start_date }}<span v-if="selectedBook.end_date"><span class="text-gray-400"> s.d.</span> {{ selectedBook.end_date }}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left pr-8">Jam</th>
+                                            <td class="py-1">: {{ formatStandardTime(selectedBook.start_hour) }} - {{ formatStandardTime(selectedBook.finish_hour) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left pr-8">Status</th>
+                                            <td class="py-1">: {{ selectedBook.status }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left pr-8">Catatan</th>
+                                            <td class="py-1">: {{ selectedBook.remarks }}</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </Modal>

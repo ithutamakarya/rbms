@@ -35,16 +35,25 @@ class DatabaseSeeder extends Seeder
 
         Room::create([
             'name' => 'Sutami',
+            'slug' => 'sutami',
             'floor' => '6',
             'capacity' => 30
         ]);
         Room::create([
             'name' => 'Inovasi',
+            'slug' => 'inovasi',
             'floor' => '8',
             'capacity' => 11
         ]);
         Room::create([
             'name' => 'Kapital',
+            'slug' => 'kapital',
+            'floor' => '8',
+            'capacity' => 18
+        ]);
+        Room::create([
+            'name' => 'Sekar Hutama',
+            'slug' => 'sekar-hutama',
             'floor' => '8',
             'capacity' => 18
         ]);
