@@ -13,6 +13,7 @@ class Room extends Model
         'name',
         'capacity',
         'floor',
+        'slug',
     ];
 
     public function books()

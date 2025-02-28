@@ -61,6 +61,12 @@ const handleDelete = () => {
 const formatStandardTime = (time) => {
     return time ? time.slice(0, 5) : '';
 }
+
+const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
+}
 </script>
 
 <template>
@@ -96,30 +102,32 @@ const formatStandardTime = (time) => {
                                     </button>
                                 </div>
                                 <table>
-                                    <tr>
-                                        <th class="text-left pr-8">Nama Rapat</th>
-                                        <td class="py-1">: {{ selectedBook.title }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-left pr-8">Ruang</th>
-                                        <td class="py-1">: Lt. {{ selectedBook.room.floor }} {{ selectedBook.room.name }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-left pr-8">Tanggal</th>
-                                        <td class="py-1">: {{ selectedBook.start_date }}<span v-if="selectedBook.end_date"><span class="text-gray-400"> s.d.</span> {{ selectedBook.end_date }}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-left pr-8">Jam</th>
-                                        <td class="py-1">: {{ formatStandardTime(selectedBook.start_hour) }} - {{ formatStandardTime(selectedBook.finish_hour) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-left pr-8">Status</th>
-                                        <td class="py-1">: {{ selectedBook.status }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-left pr-8">Catatan</th>
-                                        <td class="py-1">: {{ selectedBook.remarks }}</td>
-                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-left pr-8">Nama Rapat</th>
+                                            <td class="py-1">: {{ selectedBook.title }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left pr-8">Ruang</th>
+                                            <td class="py-1">: Lt. {{ selectedBook.room.floor }} {{ selectedBook.room.name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left pr-8">Tanggal</th>
+                                            <td class="py-1">: {{ selectedBook.start_date }}<span v-if="selectedBook.end_date"><span class="text-gray-400"> s.d.</span> {{ selectedBook.end_date }}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left pr-8">Jam</th>
+                                            <td class="py-1">: {{ formatStandardTime(selectedBook.start_hour) }} - {{ formatStandardTime(selectedBook.finish_hour) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left pr-8">Status</th>
+                                            <td class="py-1">: {{ selectedBook.status }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left pr-8">Catatan</th>
+                                            <td class="py-1">: {{ selectedBook.remarks }}</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </Modal>
@@ -136,8 +144,8 @@ const formatStandardTime = (time) => {
                                         <th class="py-4 border-b-2 w-[60px]">#</th>
                                         <th class="py-4 border-b-2 text-left">Nama Rapat</th>
                                         <th class="py-4 border-b-2">Ruang</th>
-                                        <th class="py-4 border-b-2">Jam</th>
                                         <th class="py-4 border-b-2">Tanggal</th>
+                                        <th class="py-4 border-b-2">Jam</th>
                                         <th class="py-4 border-b-2">Status</th>
                                         <th class="py-4 border-b-2">Aksi</th>
                                     </tr>
@@ -155,7 +163,7 @@ const formatStandardTime = (time) => {
                                             <td class="py-4 border-b-2 text-center">{{ index + 1 }}</td>
                                             <td class="py-4 border-b-2">{{ book.title }}</td>
                                             <td class="py-4 border-b-2 text-center">Lt. {{ book.room.floor }} {{ book.room.name }}</td>
-                                            <td class="py-4 border-b-2 text-center">{{ book.start_date }}</td>
+                                            <td class="py-4 border-b-2 text-center">{{ formatDate(book.start_date) }}<span v-if="book.end_date"> s.d. {{ formatDate(book.end_date) }}</span></td>
                                             <td class="py-4 border-b-2 text-center">{{ formatStandardTime(book.start_hour) }} - {{ formatStandardTime(book.finish_hour) }}</td>
                                             <td class="py-4 border-b-2 text-center">
                                                 <font-awesome-icon
@@ -168,14 +176,16 @@ const formatStandardTime = (time) => {
                                                     }"
                                                 /> {{ book.status }}
                                             </td>
-                                            <td class="py-4 border-b-2 text-center flex justify-center gap-x-4">
-                                                <template v-if="book.status == 'pending'">
-                                                    <Link :href="route('books.edit', book.id)" class="text-blue-500 underline">Edit</Link>
-                                                    <p @click="openDeleteModal(book.id)" class="cursor-pointer text-blue-500 underline">Hapus</p>
-                                                </template>
-                                                <template v-else>
-                                                    <p @click="openDetailModal(book.id)" class="cursor-pointer text-blue-500 underline">Detail</p>
-                                                </template>
+                                            <td class="py-4 border-b-2 text-center">
+                                                <div class="flex justify-center gap-x-4">
+                                                    <template v-if="book.status == 'pending'">
+                                                        <Link :href="route('books.edit', book.id)" class="text-blue-500 underline">Edit</Link>
+                                                        <p @click="openDeleteModal(book.id)" class="cursor-pointer text-blue-500 underline">Hapus</p>
+                                                    </template>
+                                                    <template v-else>
+                                                        <p @click="openDetailModal(book.id)" class="cursor-pointer text-blue-500 underline">Detail</p>
+                                                    </template>
+                                                </div>
                                             </td>
                                         </tr>
                                     </template>
