@@ -11,7 +11,7 @@ class ManageBookController extends Controller
 {
     public function index()
     {
-        $books = Book::with('room', 'requester.organization')->get();
+        $books = Book::with('room', 'requester.organization')->paginate(20);
         return Inertia::render('ManageBook/Index', compact('books'));
     }
 

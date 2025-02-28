@@ -1,5 +1,6 @@
 <script setup>
 import Modal from '@/Components/Modal.vue';
+import Pagination from "@/Components/Pagination.vue";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
@@ -35,7 +36,7 @@ const openDeleteModal = (id) => {
 
 const openDetailModal = (id) => {
     isDetailModalOpen.value = true;
-    selectedBook.value = props.books.find(item => item.id === id);
+    selectedBook.value = props.books.data.find(item => item.id === id);
 }
 
 const closeDetailModal = () => {
@@ -151,7 +152,7 @@ const formatDate = (dateString) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-if="props.books.length == 0">
+                                    <template v-if="props.books.data.length == 0">
                                         <tr>
                                             <td class="text-center py-4 text-gray-500" colspan="7">
                                                 Anda belum pernah melakukan booking ruangan.
@@ -159,7 +160,7 @@ const formatDate = (dateString) => {
                                         </tr>
                                     </template>
                                     <template v-else>
-                                        <tr v-for="(book, index) in props.books" :key="index" >
+                                        <tr v-for="(book, index) in props.books.data" :key="index" >
                                             <td class="py-4 border-b-2 text-center">{{ index + 1 }}</td>
                                             <td class="py-4 border-b-2">{{ book.title }}</td>
                                             <td class="py-4 border-b-2 text-center">Lt. {{ book.room.floor }} {{ book.room.name }}</td>
@@ -192,6 +193,7 @@ const formatDate = (dateString) => {
                                 </tbody>
                             </table>
                         </div>
+                        <Pagination :links="books.links" />
                     </div>
                 </div>
             </div>
